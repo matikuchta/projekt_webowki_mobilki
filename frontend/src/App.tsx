@@ -7,13 +7,38 @@ import './App.css'
 function App() {
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
+  const [repeatPassword, setRepeatPassword] = useState('')
   const [message, setMessage] = useState('')
 
   async function handleRegister() {
+    if (password !== repeatPassword) {
+      setMessage('Passwords do not match')
+      return
+    }
+
     setMessage('Registering...')
 
     try {
       const response = await fetch('http://localhost:3001/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, password }),
+      })
+
+      const data = await response.json()
+      setMessage(data.message)
+    } catch {
+      setMessage('Backend is not running')
+    }
+  }
+
+  async function handleLogin() {
+    setMessage('Logging in...')
+
+    try {
+      const response = await fetch('http://localhost:3001/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,10 +79,18 @@ function App() {
             placeholder="Password"
             type="password"
           />
+          <input
+            value={repeatPassword}
+            onChange={(event) => setRepeatPassword(event.target.value)}
+            placeholder="Repeat password"
+            type="password"
+          />
           <button className="counter" onClick={handleRegister}>
             Register
           </button>
-          <button className="counter">Login</button>
+          <button className="counter" onClick={handleLogin}>
+            Login
+          </button>
           {message && <p>{message}</p>}
         </div>
 

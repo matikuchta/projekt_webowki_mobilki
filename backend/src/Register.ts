@@ -1,16 +1,7 @@
 import "dotenv/config";
 import argon2 from "argon2";
-import { PrismaMariaDb } from "@prisma/adapter-mariadb";
-import { PrismaClient } from "./generated/prisma/client.ts";
+import { prisma } from "./prisma.ts";
 
-const databaseUrl = process.env.DATABASE_URL;
-
-if (!databaseUrl) {
-  throw new Error("DATABASE_URL is missing in backend/.env");
-}
-
-const adapter = new PrismaMariaDb(databaseUrl);
-const prisma = new PrismaClient({ adapter });
 const passwordRegex = /^(?=.*[A-Z])(?=.*(?:\d|[^\w\s])).{6,}$/;
 
 export async function register(name: string, password: string) {
