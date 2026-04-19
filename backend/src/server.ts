@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import { login } from "./Login.ts";
 import { register } from "./Register.ts";
 
 const app = express();
@@ -23,6 +24,26 @@ app.post("/api/register", async (req, res) => {
     }
 
     return res.status(201).json(result);
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+});
+
+app.post("/api/login", async (req, res) => {
+  try {
+    const { name, password } = req.body;
+    const result = await login(name, password);
+
+    if (!result.success) {
+      return res.status(400).json(result);
+    }
+
+    return res.json(result);
   } catch (error) {
     console.error(error);
 

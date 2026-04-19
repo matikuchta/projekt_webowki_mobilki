@@ -28,6 +28,25 @@ function App() {
     }
   }
 
+  async function handleLogin() {
+    setMessage('Logging in...')
+
+    try {
+      const response = await fetch('http://localhost:3001/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, password }),
+      })
+
+      const data = await response.json()
+      setMessage(data.message)
+    } catch {
+      setMessage('Backend is not running')
+    }
+  }
+
   return (
     <>
       <section id="center">
@@ -57,7 +76,9 @@ function App() {
           <button className="counter" onClick={handleRegister}>
             Register
           </button>
-          <button className="counter">Login</button>
+          <button className="counter" onClick={handleLogin}>
+            Login
+          </button>
           {message && <p>{message}</p>}
         </div>
 
