@@ -7,9 +7,15 @@ import './App.css'
 function App() {
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
+  const [repeatPassword, setRepeatPassword] = useState('')
   const [message, setMessage] = useState('')
 
   async function handleRegister() {
+    if (password !== repeatPassword) {
+      setMessage('Passwords do not match')
+      return
+    }
+
     setMessage('Registering...')
 
     try {
@@ -71,6 +77,12 @@ function App() {
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             placeholder="Password"
+            type="password"
+          />
+          <input
+            value={repeatPassword}
+            onChange={(event) => setRepeatPassword(event.target.value)}
+            placeholder="Repeat password"
             type="password"
           />
           <button className="counter" onClick={handleRegister}>
