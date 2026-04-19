@@ -5,7 +5,28 @@ import heroImg from './assets/hero.png'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [name, setName] = useState('')
+  const [password, setPassword] = useState('')
+  const [message, setMessage] = useState('')
+
+  async function handleRegister() {
+    setMessage('Registering...')
+
+    try {
+      const response = await fetch('http://localhost:3001/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, password }),
+      })
+
+      const data = await response.json()
+      setMessage(data.message)
+    } catch {
+      setMessage('Backend is not running')
+    }
+  }
 
   return (
     <>
@@ -21,14 +42,26 @@ function App() {
             Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
           </p>
         </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+        <div className="auth-form">
+          <input
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+            placeholder="Name"
+          />
+          <input
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            placeholder="Password"
+            type="password"
+          />
+          <button className="counter" onClick={handleRegister}>
+            Register
+          </button>
+          <button className="counter">Login</button>
+          {message && <p>{message}</p>}
+        </div>
 
+      </section>
       <div className="ticks"></div>
 
       <section id="next-steps">
