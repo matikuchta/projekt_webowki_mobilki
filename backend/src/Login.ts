@@ -1,5 +1,6 @@
 import argon2 from "argon2";
-import { prisma } from "./prisma.ts";
+// @ts-ignore
+import { prisma } from './prisma.ts';
 
 export async function login(name: string, password: string) {
   if (!name || !password) {
