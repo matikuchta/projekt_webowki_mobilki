@@ -40,6 +40,46 @@
   }
 }
 
+.volleyball-form {
+  justify-content: flex-start;
+  margin-top: 24px;
+
+  @media (max-width: 1024px) {
+    justify-content: center;
+  }
+}
+
+.api-panel {
+  align-items: stretch;
+}
+
+.api-toolbar {
+  margin-top: 24px;
+}
+
+.api-result {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.league-list {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+  display: grid;
+  gap: 12px;
+}
+
+.league-list li {
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--social-bg);
+}
+
 .hero {
   position: relative;
 
