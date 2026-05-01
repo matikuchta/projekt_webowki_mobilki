@@ -8,6 +8,25 @@ import { callVolleyballApi } from "./volleyballApi.ts";
 const app = express();
 const port = Number(process.env.PORT) || 3001;
 
+function getErrorStatus(error: unknown) {
+  return typeof error === "object" &&
+    error !== null &&
+    "status" in error &&
+    typeof error.status === "number"
+    ? error.status
+    : 500;
+}
+
+function getErrorMessage(error: unknown, fallback: string) {
+  return error instanceof Error && error.message ? error.message : fallback;
+}
+
+function getErrorDetails(error: unknown) {
+  return typeof error === "object" && error !== null && "details" in error
+    ? error.details
+    : undefined;
+}
+
 app.use(cors());
 app.use(express.json());
 
@@ -22,23 +41,10 @@ app.get("/api/volleyball/status", async (_req, res) => {
   } catch (error) {
     console.error(error);
 
-    const status =
-      typeof error === "object" &&
-      error !== null &&
-      "status" in error &&
-      typeof error.status === "number"
-        ? error.status
-        : 500;
-
-    const details =
-      typeof error === "object" && error !== null && "details" in error
-        ? error.details
-        : undefined;
-
-    return res.status(status).json({
+    return res.status(getErrorStatus(error)).json({
       success: false,
-      message: "Failed to fetch Volleyball API status",
-      details,
+      message: getErrorMessage(error, "Failed to fetch Volleyball API status"),
+      details: getErrorDetails(error),
     });
   }
 });
@@ -59,23 +65,10 @@ app.get("/api/volleyball/leagues", async (req, res) => {
   } catch (error) {
     console.error(error);
 
-    const status =
-      typeof error === "object" &&
-      error !== null &&
-      "status" in error &&
-      typeof error.status === "number"
-        ? error.status
-        : 500;
-
-    const details =
-      typeof error === "object" && error !== null && "details" in error
-        ? error.details
-        : undefined;
-
-    return res.status(status).json({
+    return res.status(getErrorStatus(error)).json({
       success: false,
-      message: "Failed to fetch Volleyball API leagues",
-      details,
+      message: getErrorMessage(error, "Failed to fetch Volleyball API leagues"),
+      details: getErrorDetails(error),
     });
   }
 });

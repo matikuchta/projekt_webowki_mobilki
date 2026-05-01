@@ -23,10 +23,11 @@ services:
     build:
       context: ./backend
     restart: unless-stopped
+    env_file:
+      - ./backend/.env
     environment:
       PORT: 3001
       DATABASE_URL: mysql://app:app_password@db:3306/projektpalacz
-      VOLLEYBALL_API_KEY: ${VOLLEYBALL_API_KEY:-}
     depends_on:
       db:
         condition: service_healthy
