@@ -4,6 +4,10 @@
 
 From the repository root:
 
+1. Create `backend/.env` from `backend/.env.example`.
+2. Set `VOLLEYBALL_API_KEY` in `backend/.env`.
+3. Start the stack:
+
 ```powershell
 docker compose up --build
 ```
@@ -42,4 +46,5 @@ The backend local environment file uses:
 
 ```env
 DATABASE_URL="mysql://app:app_password@localhost:3306/projektpalacz"
+VOLLEYBALL_API_KEY="your_api_sports_key_here"
 ```
